@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Blog Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                <i class="fas fa-moon theme-icon" id="themeIcon"></i>
+            </button>
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="gradient-text">Research Blog Generator</span>
+                </h1>
+                <p class="subtitle">Transform research data into compelling blog posts using AI</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section card">
+                <h2>Generate New Blog</h2>
+                <form id="blogForm" class="blog-form">
+                    <div class="form-group">
+                        <label for="topic">Research Topic</label>
+                        <input 
+                            type="text" 
+                            id="topic" 
+                            name="topic" 
+                            placeholder="e.g., data engineering in healthcare"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="generateBtn">
+                        <span class="btn-text">Generate Blog</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span> Processing...
+                        </span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section card" id="progressSection" style="display: none;">
+                <h2>Generation Progress</h2>
+                <div class="progress-steps">
+                    <div class="progress-step" id="step1">
+                        <div class="step-icon">
+                            <div class="step-number">1</div>
+                            <div class="step-spinner"></div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Research Gaps API</h3>
+                            <p>Analyzing research landscape and identifying gaps...</p>
+                        </div>
+                        <div class="step-status">
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step2">
+                        <div class="step-icon">
+                            <div class="step-number">2</div>
+                            <div class="step-spinner"></div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Questions Generation API</h3>
+                            <p>Generating research questions from identified gaps...</p>
+                        </div>
+                        <div class="step-status">
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step3">
+                        <div class="step-icon">
+                            <div class="step-number">3</div>
+                            <div class="step-spinner"></div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Methodology API</h3>
+                            <p>Determining research methodology and approach...</p>
+                        </div>
+                        <div class="step-status">
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-step" id="step4">
+                        <div class="step-icon">
+                            <div class="step-number">4</div>
+                            <div class="step-spinner"></div>
+                        </div>
+                        <div class="step-content">
+                            <h3>Gemini Blog Generation</h3>
+                            <p>Transforming data into engaging blog format...</p>
+                        </div>
+                        <div class="step-status">
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section card" id="errorSection" style="display: none;">
+                <div class="error-content">
+                    <h3><i class="fas fa-exclamation-circle"></i> Error</h3>
+                    <p id="errorMessage"></p>
+                </div>
+            </section>
+
+            <!-- Blog Display Section -->
+            <section class="blog-section card" id="blogSection" style="display: none;">
+                <div class="blog-header">
+                    <h2>Generated Blog</h2>
+                    <div class="blog-actions">
+                        <button class="btn-icon btn-edit" id="editCurrentBtn" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon btn-download" id="downloadBtn" title="Download Markdown">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn-icon btn-details" id="viewDetailsBtn" title="View Details">
+                            <i class="fas fa-chart-bar"></i>
+                        </button>
+                        <button class="btn-icon btn-done" id="doneBtn" title="Done">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="blog-content" id="blogContent"></div>
+            </section>
+
+            <!-- Details Modal -->
+            <div class="modal" id="detailsModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Blog Details</h2>
+                        <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="details-section">
+                            <h3>Research Gaps</h3>
+                            <pre id="gapsData"></pre>
+                        </div>
+                        <div class="details-section">
+                            <h3>Research Questions</h3>
+                            <pre id="questionsData"></pre>
+                        </div>
+                        <div class="details-section">
+                            <h3>Methodology</h3>
+                            <pre id="methodologyData"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="edit-modal" id="editModal" style="display: none;">
+                <div class="edit-modal-content">
+                    <div class="edit-modal-header">
+                        <h2>Edit Blog</h2>
+                        <button class="modal-close" id="closeEditModal"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="edit-modal-body">
+                        <textarea class="edit-textarea" id="editTextarea" placeholder="Edit your blog content here..."></textarea>
+                    </div>
+                    <div class="edit-modal-footer">
+                        <button class="btn btn-secondary" id="cancelEdit">Cancel</button>
+                        <button class="btn btn-primary" id="saveEdit">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirmation Dialog -->
+            <div class="confirm-dialog" id="confirmDialog" style="display: none;">
+                <div class="confirm-dialog-content">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
+                    <p id="confirmMessage">Are you sure you want to delete this blog? This action cannot be undone.</p>
+                    <div class="confirm-dialog-actions">
+                        <button class="btn-cancel" id="cancelDelete">Cancel</button>
+                        <button class="btn-confirm" id="confirmDelete">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Blogs Section -->
+            <section class="saved-blogs-section card">
+                <h2>Recent Blogs</h2>
+                <div id="savedBlogs" class="saved-blogs-list">
+                    <p class="loading-text">Loading saved blogs...</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Gemini AI • Built with Flask & SQLite</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

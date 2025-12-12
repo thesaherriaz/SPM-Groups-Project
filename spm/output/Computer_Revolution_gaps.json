@@ -1,0 +1,24 @@
+{
+  "gaps": [
+    {
+      "statement": "Comprehensive longitudinal studies on the multi-generational psychological and cognitive impacts of pervasive digital technology on human development and societal well-being, moving beyond short-term observational studies.",
+      "score": 95
+    },
+    {
+      "statement": "Development of robust, proactive ethical and governance frameworks specifically designed for the rapid proliferation of autonomous AI systems and their integration into critical societal infrastructures, beyond current reactive regulatory approaches.",
+      "score": 92
+    },
+    {
+      "statement": "Analysis of the evolving digital divide in the context of advanced computing (e.g., AI, quantum computing, ubiquitous IoT), examining new forms of socio-economic exclusion and power imbalances across different global regions.",
+      "score": 90
+    },
+    {
+      "statement": "Detailed comparative studies on the transformative impact of advanced computing (e.g., generative AI, sophisticated automation) on high-skill, creative, and service-based industries, and the development of effective policy interventions for workforce reskilling and economic adaptation.",
+      "score": 88
+    },
+    {
+      "statement": "Comprehensive research into the environmental footprint of the global computing infrastructure, including energy consumption of AI models, data centers, and device manufacturing, and the development of sustainable computing paradigms and policy incentives.",
+      "score": 85
+    }
+  ]
+}
